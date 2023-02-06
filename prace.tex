@@ -1,0 +1,155 @@
+% ============================================================================ %
+%
+%           Šablona bakalářské/diplomové práce
+%
+% Autor:    Ing. Jozef Říha (4. květen 2006)
+%           (některé komentáře převzaty z dokumentu Ivana Pomykacze)
+%
+% Verze:    2017-01-19, Ing. Pavel Tomášek (tomasek@fai.utb.cz)
+%
+% Kódování: UTF-8 (žluťoučký kůň úpěl ďábelšké ódy)
+%
+% Sazba:    pdflatex prace.tex && pdflatex prace.tex
+%           (nutné dvakrát pro korektní vložení citací a jiných referencí),
+%           v případě umístění literatury do externího bib souboru je třeba volat
+%           pdflatex statement.tex && bibtex statement.tex && pdflatex statement.tex && pdflatex statement.tex
+%
+% Tip:      Ve správně vysázeném českém textu by na konci řádku neměla zůstant
+%           samotná jednopísmenná předložka. Na takové místo se vkládá
+%           nezalomitelná mezera pomocí symbolu ~. Existuje program, který umí
+%           zpracovat celý TeX dokument najednou podle českých konvencí:
+%           http://petr.olsak.net/ftp/olsak/vlna/
+%
+%           Pozor! Vzhledem k požadovanému standardu PDF/A nesmí obrázky obsahovat 
+%           alfa kanál (průhlednost).
+%
+% ============================================================================ %
+
+
+\documentclass[a4paper,12pt]{article}
+
+% Definice vzhledu a nastavení se načítá z následujícího souboru (netřeba editovat)
+\input{tex/UTB.tex}
+
+% Uživatelské definice -- upravte dle požadavků
+\nastavfakultu{FAI}
+	% FAI  -- pro Fakultu aplikované informatiky
+	% FAME -- pro Fakultu managementu a ekonomiky
+	% FHS  -- pro Fakultu humanitních studií
+	% FLKR -- pro Fakultu logistiky a krizového řízení
+	% FMK  -- pro Fakutlu mutimediálních komunikací
+	% FT   -- pro Fakultu technologickou
+	% UNI  -- pro Univerzitní institut
+\nastavtyp{DP}
+	% BP   -- bakalářská práce
+	% DP   -- diplomová práce
+	% SP   -- semestrální projekt
+	% UK   -- úkol
+\nastavrok{2023}
+	% zadejte rok místo "xxxx"
+\nastavjazyk{SK}
+	% CZ   -- práce bude v českém jazyce
+	% EN   -- práce bude v anglickém jazyce
+    % SK   -- práce bude v slovenském jazyce
+\nastavcisloukolupredmet{}{AK9FA}
+    % napr. 1 a AK0FA  -- jen pro prace typu UK (úkol)
+
+% Lze přidat vertikalni odsazeni nad (prvni parametr) a pod (druhy parametr)
+% obrázky, tabulky i rovnice/soustavy rovnic
+\nastavmezerukolemobrazku{0mm}{0mm}
+\nastavmezerukolemtabulek{0mm}{0mm}
+\nastavmezerukolemrovnic{0mm}{0mm}
+
+\nastavautora{Bc. Ondrej Vavro}
+\nastavnazevcz{Automatizovaná detekce vektorů útoku pomocí SDR (Software Defined Radio)}
+\nastavnazeven{Automated Attack Vector Detection Using SDR (Software Defined Radio)} % Jen u anglicky psané práce
+\nastavnazevsk{Automatizovaná detekce vektorů útoku pomocí SDR (Software Defined Radio)}
+\nastavabstraktcz{Práce rozebírá problematiku bezpečnostních útoků na téměř celé spektrum elektromagnetických frekvencí používaných ke komunikaci a přenosu dat, a to pomocí SDR. Využívá faktu, že některé frekvence jsou považovány za bezpečné pro přenos jen díky své rozdílné frekvenci od uživatelsky lehce dostupných. Práce popisuje návrh a provedení přenositelného zařízení, které je možné k tomuto účelu použít.}
+\nastavabstrakten{Thesis analyzies security attacks on almost the entire range of electromagnetic frequencies used for communication and data transfer, with help of an SDR. It uses the fact that some frequencies are considered safe due to having different frequencies from the user frequencies, that are easily accessible. Thesis describes design, construction and implementation of a portable device useable to this end.}
+\nastavabstraktsk{Práca rozeberá problematiku bezpečnostných útokov na takmer celé spektrum elektromagnetických frekvencií používaných ku komunikácii a prenosu dát, a to pomocou SDR. Využíva faktu, že niektoré frekvencie sú považované za bezpečné pre prenos len vďaka svojej rozdielnej frekvencii od užívateľsky ľahko dostupných. Práca popisuje návrh a prevedenie prenositeľného zariadenia, ktoré je možné k tomuto účelu použiť.}
+\nastavklicovaslovacz{bezpečnost, frekvenční spektrum, vektor útoku, SDR}
+\nastavklicovaslovaen{security, frequency spectrum, attack vector, SDR}
+\nastavklicovaslovask{bezpečnosť, frekvenčné spektrum, vektor útoku, SDR}
+
+% Následující příkaz nastaví standard PDF/A-1b
+\aplikujpdfa
+
+% ============================================================================ %
+\begin{document}
+
+\titulnistrana
+
+\ifsp \else \ifuk \else
+\zadani{graphics/zadani_A21190_63573.pdf}
+\fi \fi
+
+\ifbp \else \ifdp \else
+\zadanispuk{}
+\fi \fi
+
+\ifsp \else \ifuk \else
+\prohlaseni
+\fi \fi
+
+\ifsp \else \ifuk \else
+\abstraktaklicovaslova
+\fi \fi
+
+
+% ============================================================================ %
+\ifsp \else \ifuk \else
+\clearpage
+\thispagestyle{empty}
+Chci poděkovat mému vedoucímu práce, panu Ing. Davidu Malaníkovi, PhD., za jeho cenné poznatky v oblasti bezpečnosti, které mi poskytl, určování směru a formy práce, aby odpovídala vědeckému standardu, a za jeho pečlivost při kontrole obsahu práce a trpělivost při její korektůře.
+
+Také chci poděkovat celému obsazení fakulty, a zejména jeho vedení, za to, že mi umožnilo věnovat se tomuto studijnímu oboru a snad tak přispět k zvýšení bezpečnosti v moderním IT světě.
+
+V neposlední řadě děkuji svým rodičům, sourozencům a blízkým za jejich trpělivost, kolegům za jejich ochotu dělit se o studijní informace a za diskuzi k studijním problémům.
+\fi \fi
+
+% ============================================================================ %
+\obsah  % Obsah je generován automaticky
+
+% ============================================================================ %
+\OdsazovaniOdstavcuStart % Nastaví odsazování odstavců dle zvoleného jazyka
+\okraje
+
+\input{tex/text.tex} % Hlavni text prace
+
+\OdsazovaniOdstavcuStop
+
+% ============================================================================ %
+%\seznamlit{
+  % Na toto místo vložit veškeré citované bibliografické položky.
+%  \bibitem{chmel}\it{Český chmel: atlas odrůd} [online]. [cit. 2004-10-15]. Dostupný z~WWW: \url{http://www.beer.cz/humulus/}.
+%}
+
+% Pro generování literatury lze alternativně použít i příkaz "\seznamlitbib", 
+% který se postará o plnohodnotné vkládání referencí pomocí "bibliography". 
+% V takovém případě se využívají bibliografické údaje uložené v souboru 
+% tex-literatura.bib. Ty se automaticky upravuji dle zvolené citační normy 
+% (v šabloně je nastavena korektní česká norma).
+\seznamlitbib
+
+
+% ============================================================================ %
+%\input{tex/zkratky.tex} % Seznam zkratek
+
+
+% ============================================================================ %
+%\seznamobr  % Seznam je generován automaticky
+
+
+% ============================================================================ %
+%\seznamtab  % Seznam je generován automaticky
+
+
+% ============================================================================ %
+%\input{tex/prilohy.tex} % Prilohy
+
+
+% ============================================================================ %
+
+\end{document}
+
+% ============================================================================ %

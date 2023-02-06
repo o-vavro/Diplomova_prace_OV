@@ -1,0 +1,17 @@
+COLLINS, Travis F., Robin GETZ, Di PU a Alexander M. WYGLINSKI. Software-defined radio for engineers: Artech House mobile communications series. Artech House, 2018. ISBN 978-1-63081-459-5.
+
+EWING, Martin. ABCs of Software Defined Radio: Why Your Next Radio Will be SDR. Amer Radio Relay League, 2012. ISBN 978-0-87259-632-0.
+
+POORE, Christopher. FISSURE: The RF Framework for Everyone. Proceedings of the GNU Radio Conference [online]. 2022, 7(1) [cit. 2022-11-30]. Dostupné z: https://pubs.gnuradio.org/index.php/grcon/article/view/122/102
+
+PICOD, Jean-Michel, Arnaud LEBRUN a Jonathan-Christofer DEMAY. Bringing software defined radio to the penetration testing community. Black Hat USA Conference [online]. 2014 [cit. 2022-11-30]. Dostupné z: https://www.blackhat.com/docs/us-14/materials/us-14-Picod-Bringing-Software-Defined-Radio-To-The-Penetration-Testing-Community-WP.pdf
+
+GRECO, Claudia, Giancarlo FORTINO, Bruno CRISPO a Kim-Kwang Raymond CHOO. AI-enabled IoT penetration testing: state-of-the-art and research challenges. ENTERPRISE INFORMATION SYSTEMS [online]. 2022 [cit. 2022-11-30]. ISSN 17517575. Dostupné z: doi:10.1080/17517575.2022.2130014
+
+GUZMAN, Aaron a Aditya GUPTA. IoT Penetration Testing Cookbook: Identify vulnerabilities and secure your smart devices. 1. Packt Publishing, 2017. ISBN 9781787285170.
+
+VEENS, Thomas. Automated 2G traffic interception and penetration testing. Eindhoven, 2018. Diplomová práce. Eindhoven University of Technology.
+
+RUGELES URIBE, José de Jesús, Edward Paul GUILLEN a Leonardo S. CARDOSO. A technical review of wireless security for the internet of things: Software defined radio perspective. Journal of King Saud University: Computer and Information Sciences [online]. 2022, 34(7), 4122-4134 [cit. 2022-11-30]. ISSN 1319-1578. Dostupné z: doi:https://doi.org/10.1016/j.jksuci.2021.04.003
+
+AHANGER, Tariq Ahamed, Abdullah ALJUMAH a Mohammed ATIQUZZAMAN. State-of-the-art survey of artificial intelligent techniques for IoT security. Computer Networks [online]. 2022, 24(206) [cit. 2022-11-30]. ISSN 1389-1286. Dostupné z: doi:https://doi.org/10.1016/j.comnet.2022.108771
