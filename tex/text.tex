@@ -1,0 +1,157 @@
+% ============================================================================ %
+% Encoding: UTF-8 (žluťoučký kůň úpěl ďábelšké ódy)
+% ============================================================================ %
+
+% ============================================================================ %
+\nn{Úvod}
+
+Prešlo viac ako 120 rokov od Herzovho objavu rádiových vĺn a ich využitia Marconim
+k prenosu kódovanej informácie. Za toto obdobie bolo ľudstvo schopné pokoročiť vo
+využívaní rádiovej komunikácie na takú úroveň, že dnes je len málo miest na Zemi,
+ktoré by neboli pokryté pozemnou rádiovou komunikáciou a takmer žiadne, ktoré by
+odolali dosahu satelitnej rádiovej komunikácie.
+
+Táto skutočnosť viedla k tomu, že dnes je možné takmer z každého miesta na Zemi
+odpočúvať nejakú komunikáciu, či už je podstatná alebo nepodstatná. Táto skutočnosť
+v minulosti nebola postatná, keďže pre zachytenie rádiovej komunikácie bolo potreba
+buď univerzálnu a komplexnú, ťažko prenositeľnú techniku alebo špeciálne zariadenie
+nastavené od výroby na jediný účel (a na relatívne úzke frekvenčné pásmo). V dôsledku
+toho nebola potreba ochrany komunikácie na prvom mieste, ak vôbec bola braná v potaz.
+
+Vývoj však ženie kupredu i techniku v tejto oblasti, a to míľovými krokmi. To čo bolo
+kedysi možné len s objemným a drahým hardwarom je dnes dosiahnuteľné s ľahko prenositeľným
+zariadením, ktoré sa vojde doslova do dlane. Už nie je potreba veľmi citlivých prímačov a 
+amplifikáciu a filtrovanie signálu, ktorý kvôli vysokému šumu ani nebolo možné dekódovať. 
+Stačí sa dostaviť do rozumnej vzdialenosti, a ani konfigurovateľná filtrácia ``za behu''
+nerobí modernej technike problémy.
+
+A čo viac, komplexná a rýchla komunikácia, vyžadujúca logiku stavových automatov na čipe, 
+je dnes nahraditeľná rýchlymi procesormi a ich výpočetnou kapacitou či vhodnými, na mieste
+reprogramovateľnými, čipmi. Je tak skutočne možné dekódovať takmer akúkoľvek komunikáciu
+a teda i na ňu útočiť, čo otvára mnohé otázky ohľadom zabezpečenia rádiovej komunikácie v
+našej spoločnosti.
+
+Táto práca sa zaoberá problematikou vyhľadávania slabých miest spôsobených nedostatočným
+zabezpečením alebo designovou chybou v návrhu komunikačných prvkov. V Sekcii \ref{sec:elmag} a \ref{sec:radio} rozoberá fyzikálne princípy a základy rádiovej komunikácie, Sekcia \ref{sec:sdr} sa venuje univerzálnemu zariadeniu využívajúcemu software pre rádiovú komunikáciu -- Software Defined Radio (SDR). Sekcia \ref{sec:security} ďalej skúma bezpečnosť v danej oblasti a Sekcia \ref{sec:softtools} prezentuje využiteľný software a nástroje pre analýzu a spracovanie zachytenej komunikácie. Nasledujúce sekcie prezentujú návrh a zostavenie zariadenia umožňujúceho skúmať bezpečnosť v teréne, a to na základe existujúcich komponentov (Sekcia \ref{sec:design}), tak i novo vytvorených (Sekcia \ref{sec:attacks}). Posledná Sekcia \ref{sec:testing} skúma možnosti takéhoto zariadenia -- v testovacom i reálnom prostredí.
+
+
+% ============================================================================ %
+\cast{Teoretická časť}
+
+\n{1}{Elektromagnetické spektrum} \label{sec:elmag}
+
+Elektromagnetická sila je jednou zo štyroch základných síl, ktoré boli fyzici schopní
+objaviť a dopodrobna matematicky popísať. Niet preto divu, že využitie tejto sily nás
+sprevádza každý deň.
+
+Už James Clerk Maxwell v klasickej teórii elektromagnetizmu, ktorá vznikla najmä z jeho práce, 
+prepovedal vznik elektromagnetických vĺn, ktoré sa šíria priestorom \cite{electromag}. V tej
+dobe predstava zahrňovala hlavne svetlo, ale matematicky dávali zmysel i iné frekvencie.
+
+\obr{Rozdelenie elektromagnetického spektra, \b{f} predstavuje frekcencie a $\bm{\lambda}$ vlnové dĺžky \cite{nasaspectrum}.}{img:elmagspectrum}{0.9}{graphics/elmag_spectrum.png}
+
+Z dnešného hľadiska môžeme elektromagnetické spektrum rozdeliť do nasledujúcich kategórií (viď Obr. \ref{img:elmagspectrum}):
+\begin{itemize}
+\item pásmo rádiových frekvencií
+\item infračervené pásmo
+\item viditeľné svetlo
+\item ultrafialové pásmo
+\item rontgenové pásmo
+\item pásmo gamma
+\item pásmo kozmického žiarenia
+\end{itemize}
+
+Frekcencie nad ultrafialovým žiarením (vrátene jeho časti) radíme do kategórie \i{ionizujúceho} žiarenia, pretože ich vplyvom dochádza k zmene genetickej informácie a rozpadu bunečného života. Tieto frekvencie na Zemi filtrujú vrstvy atmosféry a umožňujú tak život na našej planéte.
+
+Nižšie frekvencie okolo seba vidíme každý deň. Ich vplyv na život je minimálny, prevážne sa premieňajú na teplo. Špeciálne rádiové frekvencie majú schopnosť do istej miery prenikať predmetmi a práve z tohoto dôvodu sú vhodné pre komunikáciu na väčšie vzdialenosti. Ďalšie detaily v tomto smere poskytne nasledujúca kapitola.
+
+\n{1}{Rádiový prenos dát} \label{sec:radio}
+
+\n{2}{Využívané frekvencie a legislatíva}
+
+Po úvodnom objave existencie a možnostiach využitia elektromagnetických vĺn, špeciálne v rádiovej oblasti, nastal veľký boom v ich využívaní, ktorý viedol až k zavedeniu noriem ich používania a prideľovana frekvenčných pásiem pre isté spôsoby ich využitia.
+
+\obr{Rozdelenie rádového spektra podľa ITU, \b{f} predstavuje frekcencie a $\bm{\lambda}$ vlnové dĺžky \cite{nasaspectrum}.}{img:radiospectrum}{0.7}{graphics/radio_spectrum.png}
+
+Rádiové spektrum tvoria vlny so širokým rozpätím frekvencií približne do 100 GHz (viď Obr. \ref{img:radiospectrum}) a môžeme ich rozdeliť do nasledujúcich kategórií \cite{itu}:
+\begin{itemize}
+\item pásmo veľmi nízkych frekvencií (VLF) -- využitie v komunikácii s ponorkami, v komunikácii v podzemních baniach
+\item pásmo nízkych frekvencií (LF) -- využitie v navigácii, synchronizácii časových signálov, pre amatérske rádio a identifikáciu na rádiovej frekvencii(RFID)
+\item pásmo stredných frekvencií (MF) -- využitie pre vysielanie rádia v oblasti amplitúdovej modulácie (AM), lavínové záchranné vysielače,, pre amatérske rádio
+\item pásmo vysokých frekvencií (HF) -- využitie pre vbezkontaktné platby a komunikáciu blízkeho poľa (NFC), leteckú komunikáciu ``za horizont'', komunikáciu na mori, bezdrôtové domáce telefóny
+\item pásmo veľmi vysokých frekvencií (VHF) -- využitie pre vysielanie rádia v oblasti frekvenčnej modulácie (FM), televízne prenosy, amatérske rádio, bezpečnostné zložky (polícia, hasiči, a pod.), komunikáciu informácií o počasí z meteorologických staníc
+\item pásma ultra (UHF) a super (SHF) vysokých frekvencií -- mikrovlnná komunikácia -- bezdrôtovú lokálnu sieť (WiFi), BlueTooth, ZigBee, LoRa, a pod., mikrovlnný ohrev jedla, satelitnú navigáciu (GPS, Galileo, Glonass, Beidou), satelitná telefónna komunikácia, satelitné vysielanie, a pod.
+\item pásmo extra vysokých frekvencií (EHF) -- rádio astronómia, mikrovlnné zbrane, a pod.
+\end{itemize}
+
+Z uvedených pásiem sa táto práca bude prevažne orientovať na rozmedzie od vysokých frekvencií (HF) až po super vysoké frekvencie (SHF).
+
+\n{2}{Štandardné komponenty}
+
+\n{2}{Abstraktné vrstvy a protokoly}
+
+\n{2}{Rádiové a bezdrôtové systémy}
+
+\n{1}{Software Defined Radio (SDR)} \label{sec:sdr}
+
+\n{2}{História SDR}
+
+\n{2}{Komponenty SDR}
+
+\n{2}{Súčasný stav SDR}
+
+\n{1}{Bezpečnosť rádiových systémov} \label{sec:security}
+
+\n{2}{Analýza bezpečnosti rádiových systémov}
+
+\n{2}{Silné, slabé miesta a problémy prevedenia útoku}
+
+\n{2}{Kategórie útokov}
+
+\n{2}{Využitie SDR pri útokoch}
+
+\n{1}{Software a nástroje} \label{sec:softtools}
+
+\n{2}{Analýza frekvenčného spektra}
+
+\n{2}{Detekcia typu komunikácie a použitých protokolov}
+
+\n{2}{Tvorba packetov}
+
+\n{2}{Tvorba sledu komunikácie}
+
+\cast{Praktická časť}
+
+\n{1}{Návrh systému s SDR} \label{sec:design}
+
+\n{2}{Analýza požiadavkov pre návrh systému}
+
+\n{2}{Výber hardware komponentov}
+
+\n{2}{Výber software komponentov}
+
+\n{2}{Zostavenie systému a nastavenie software}
+
+\n{1}{Návrh detekcie možných vektorov útoku} \label{sec:attacks}
+
+\n{2}{Automatická analýza rádiovej komunikácie}
+
+\n{2}{Detekcia vybraných protokolov a zachytávanie komunikácie}
+
+\n{2}{Zostavenie možných útokov na základe komunikácie}
+
+\n{2}{Prevedenie útoku}
+
+\n{1}{Testovanie systému} \label{sec:testing}
+
+\n{2}{Testovanie komponent systému}
+
+\n{2}{Testovanie systému imitáciou reálneho cieľa}
+
+\n{2}{Nasadenie systému v reálnej prevádzke}
+
+% ============================================================================ %
+\nn{Záver}
+
+
+% ============================================================================ %
